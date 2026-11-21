@@ -64,7 +64,8 @@ export default function App() {
     <div className="min-h-screen bg-cream dark:bg-slate-950">
       <Toasts toasts={toasts} />
       <Confetti show={confetti} />
-      <header className="sticky top-0 z-40 bg-gradient-to-r from-brand-700 via-brand-600 to-fuchsia-600 text-white px-4 py-3 flex items-center gap-2 shadow-md">
+      <header className="sticky top-0 z-40 bg-gradient-to-r from-brand-700 via-brand-600 to-fuchsia-600 text-white shadow-md">
+      <div className="w-full max-w-md sm:max-w-2xl lg:max-w-5xl mx-auto px-4 py-3 flex items-center gap-2">
         <span className="text-2xl">🍽️</span>
         <div className="flex-1">
           <div className="font-extrabold leading-none">RePlate</div>
@@ -76,10 +77,11 @@ export default function App() {
           {unread > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold w-4.5 h-4.5 min-w-[18px] min-h-[18px] rounded-full flex items-center justify-center">{unread}</span>}
         </button>
         <button onClick={() => { logout(); setTab('home') }} className="text-xs font-semibold bg-brand-700 rounded-lg px-2.5 py-1.5">Log out</button>
+      </div>
       </header>
 
       {showBell && (
-        <div className="max-w-md mx-auto px-4 mt-3">
+        <div className="w-full max-w-md sm:max-w-2xl lg:max-w-5xl mx-auto px-4 mt-3">
           <div className="bg-white dark:bg-slate-900 rounded-2xl ring-1 ring-gray-200 dark:ring-slate-700 p-3 space-y-2 max-h-64 overflow-auto">
             {notifications.length === 0 && <p className="text-sm text-gray-400 dark:text-slate-500 text-center py-3">No notifications yet.</p>}
             {notifications.slice(0, 12).map((n) => (
@@ -89,7 +91,7 @@ export default function App() {
         </div>
       )}
 
-      <main key={activeTab} className="max-w-md mx-auto px-4 py-4 pb-24 anim-fadeUp">
+      <main key={activeTab} className="w-full max-w-md sm:max-w-2xl lg:max-w-5xl mx-auto px-4 py-4 pb-24 anim-fadeUp">
         {activeTab === 'home' && <Feed user={user} listings={db.listings} location={location} toast={toast} goClaims={() => setTab('claims')} celebrate={celebrate} />}
         {activeTab === 'post' && <PostFood user={user} location={location} toast={toast} goMyListings={() => setTab('mine')} />}
         {activeTab === 'mine' && <MyListings user={user} listings={db.listings} toast={toast} celebrate={celebrate} />}
@@ -98,7 +100,7 @@ export default function App() {
       </main>
 
       <nav className="fixed bottom-0 inset-x-0 z-40 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-        <div className="max-w-md mx-auto grid" style={{ gridTemplateColumns: `repeat(${tabs.length}, 1fr)` }}>
+        <div className="w-full max-w-md sm:max-w-2xl lg:max-w-5xl mx-auto grid" style={{ gridTemplateColumns: `repeat(${tabs.length}, 1fr)` }}>
           {tabs.map((t) => (
             <button key={t.id} onClick={() => setTab(t.id)} className={`py-2.5 flex flex-col items-center gap-0.5 text-[11px] font-semibold ${activeTab === t.id ? 'text-brand-700 dark:text-brand-300' : 'text-gray-400 dark:text-slate-500'}`}>
               <span className="text-xl leading-none">{t.icon}</span>{t.label}

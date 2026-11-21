@@ -13,7 +13,7 @@ export function MyListings({ user, listings, toast, celebrate }) {
     <div>
       <h2 className="text-xl font-extrabold mb-3">My listings</h2>
       {mine.length === 0 && <p className="text-gray-400 dark:text-slate-500 text-center py-12">Nothing posted yet. Tap ＋ Post to share surplus food.</p>}
-      <div className="space-y-3">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 items-start">
         {mine.map((l) => (
           <article key={l.id} className="bg-white dark:bg-slate-900 rounded-2xl ring-1 ring-gray-200 dark:ring-slate-700 p-3.5 flex gap-3">
             <img src={l.photo} alt="" className="w-20 h-20 rounded-xl object-cover shrink-0" />
@@ -48,7 +48,7 @@ export function MyClaims({ user, listings, toast, celebrate }) {
     <div>
       <h2 className="text-xl font-extrabold mb-3">My claims</h2>
       {mine.length === 0 && <p className="text-gray-400 dark:text-slate-500 text-center py-12">No claims yet. Claim food from the feed and it will show up here.</p>}
-      <div className="space-y-3">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 items-start">
         {mine.map((l) => (
           <article key={l.id} className="bg-white dark:bg-slate-900 rounded-2xl ring-1 ring-gray-200 dark:ring-slate-700 p-3.5">
             <div className="flex gap-3">

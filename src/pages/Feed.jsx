@@ -120,7 +120,7 @@ export default function Feed({ user, listings, location, toast, goClaims, celebr
       {view === 'map' ? (
         <div className="mt-3"><MapView listings={visible} center={location} now={now} /></div>
       ) : loading ? (
-        <div className="space-y-3 mt-4"><SkeletonCard /><SkeletonCard /><SkeletonCard /></div>
+        <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3 mt-4"><SkeletonCard /><SkeletonCard /><SkeletonCard /></div>
       ) : visible.length === 0 ? (
         <div className="text-center py-14 text-gray-400 dark:text-slate-500 anim-fadeUp">
           <div className="text-4xl mb-2">🍃</div>
@@ -128,7 +128,7 @@ export default function Feed({ user, listings, location, toast, goClaims, celebr
           <p className="text-sm mt-1">Try clearing the search or filters — new food appears all day.</p>
         </div>
       ) : (
-        <div className="space-y-3.5 mt-4">
+        <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3 mt-4">
           {visible.map((l, i) => (
             <ListingCard key={l.id} l={l} distanceKm={l.distanceKm} now={now} index={i}>
               <div className="mt-3 flex gap-2">

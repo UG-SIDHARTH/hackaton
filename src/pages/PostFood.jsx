@@ -47,7 +47,7 @@ export default function PostFood({ user, location, toast, goMyListings }) {
 
   const input = 'w-full rounded-xl border border-gray-300 dark:border-slate-600 px-3.5 py-3 text-[16px] bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500'
   return (
-    <form onSubmit={submit} className="space-y-4">
+    <form onSubmit={submit} className="space-y-4 max-w-xl mx-auto w-full">
       <h2 className="text-xl font-extrabold">Post surplus food</h2>
       <p className="-mt-2 text-sm text-gray-500 dark:text-slate-400">One screen, under 30 seconds.</p>
 

@@ -18,7 +18,7 @@ export default function Dashboard({ db }) {
   return (
     <div>
       <h2 className="text-xl font-extrabold mb-3">Impact dashboard</h2>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {cards.map((c) => (
           <div key={c.label} className="bg-white dark:bg-slate-900 rounded-2xl ring-1 ring-gray-200 dark:ring-slate-700 p-4">
             <div className="text-2xl">{c.icon}</div>
