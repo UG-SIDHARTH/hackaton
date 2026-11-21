@@ -2,6 +2,10 @@
 
 **No edible food should reach a dustbin while someone nearby is hungry.**
 
+**🔴 Live demo: https://replate-pi.vercel.app** · Repo: https://github.com/UG-SIDHARTH/hackaton
+
+Run it locally with Docker: `docker compose up --build` → http://localhost:3000
+
 RePlate is a real-time, mobile-first surplus food rescue platform. Restaurants, bakeries, supermarkets and caterers post food that would otherwise be thrown away; nearby NGOs, shelters, community kitchens and volunteers see it live, claim it in one tap, and pick it up before the deadline.
 
 ## 🎬 Try it in 60 seconds (no signup)
