@@ -12,7 +12,7 @@
 //    atomicity comes from Firestore transactions in Firebase mode.
 // ---------------------------------------------------------------------------
 
-const LS_KEY = 'replate_db_v1'
+const LS_KEY = 'replate_db_v2'
 export const CITY_CENTER = { lat: 8.5241, lng: 76.9366 } // Thiruvananthapuram
 
 const PRESET_PHOTOS = [

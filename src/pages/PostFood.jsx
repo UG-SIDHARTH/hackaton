@@ -72,7 +72,7 @@ export default function PostFood({ user, location, toast, goMyListings }) {
 
       <div className="flex bg-white dark:bg-slate-900 rounded-xl ring-1 ring-gray-200 dark:ring-slate-700 p-1">
         <button type="button" onClick={() => setVeg(true)} className={`flex-1 py-2.5 rounded-lg font-semibold ${veg ? 'bg-brand-600 text-white' : 'text-gray-500 dark:text-slate-400'}`}>🟢 Veg</button>
-        <button type="button" onClick={() => setVeg(false)} className={`flex-1 py-2.5 rounded-lg font-semibold ${!veg ? 'bg-red-50 dark:bg-red-950/500 text-white' : 'text-gray-500 dark:text-slate-400'}`}>🔴 Non-veg</button>
+        <button type="button" onClick={() => setVeg(false)} className={`flex-1 py-2.5 rounded-lg font-semibold ${!veg ? 'bg-red-500 text-white' : 'text-gray-500 dark:text-slate-400'}`}>🔴 Non-veg</button>
       </div>
 
       <div>

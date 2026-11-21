@@ -73,7 +73,7 @@ export default function App() {
         <button onClick={toggleTheme} className="text-xl p-1.5" aria-label="Toggle dark mode">{theme === 'dark' ? '☀️' : '🌙'}</button>
         <button onClick={() => { setShowBell(!showBell); if (!showBell) markNotificationsRead() }} className="relative text-xl p-1.5">
           🔔
-          {unread > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-50 dark:bg-red-950/500 text-white text-[10px] font-bold w-4.5 h-4.5 min-w-[18px] min-h-[18px] rounded-full flex items-center justify-center">{unread}</span>}
+          {unread > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold w-4.5 h-4.5 min-w-[18px] min-h-[18px] rounded-full flex items-center justify-center">{unread}</span>}
         </button>
         <button onClick={() => { logout(); setTab('home') }} className="text-xs font-semibold bg-brand-700 rounded-lg px-2.5 py-1.5">Log out</button>
       </header>
