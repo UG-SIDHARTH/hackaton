@@ -34,11 +34,23 @@ export default function Dashboard({ db }) {
           {week.map((w) => (
             <div key={w.d} className="flex-1 flex flex-col items-center gap-1">
               <span className="text-[11px] font-semibold text-gray-500">{w.v}</span>
-              <div className="w-full bg-leaf-500 rounded-t-lg transition-all duration-500" style={{ height: `${(w.v / weekMax) * 100}%` }} />
+              <div className="w-full bg-gradient-to-t from-leaf-600 to-leaf-400 rounded-t-lg origin-bottom" style={{ height: `${(w.v / weekMax) * 100}%`, animation: `barGrow .7s ease ${week.indexOf(w) * 80}ms both` }} />
               <span className="text-[11px] text-gray-400">{w.d}</span>
             </div>
           ))}
         </div>
+      </div>
+
+
+      <div className="bg-gradient-to-br from-leaf-600 to-emerald-600 rounded-2xl p-4 mt-4 text-white shadow-lg shadow-leaf-200">
+        <div className="flex items-center justify-between">
+          <h3 className="font-bold">🎯 Weekly rescue goal</h3>
+          <span className="text-sm font-semibold text-leaf-100">{Math.min(454 + myDonations, 500)}/500 meals</span>
+        </div>
+        <div className="h-3 bg-white/25 rounded-full mt-3 overflow-hidden">
+          <div className="h-full bg-white rounded-full transition-[width] duration-1000" style={{ width: `${Math.min(100, ((454 + myDonations) / 500) * 100)}%` }} />
+        </div>
+        <p className="text-[13px] text-leaf-50 mt-2">Every pickup moves the whole city closer. Keep going!</p>
       </div>
 
       <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-4 mt-4">

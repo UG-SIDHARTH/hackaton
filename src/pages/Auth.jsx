@@ -28,13 +28,13 @@ export default function Auth({ onDone, toast }) {
 
   return (
     <div className="min-h-screen bg-cream flex flex-col">
-      <div className="bg-leaf-600 text-white px-5 pt-10 pb-8 rounded-b-[2rem]">
+      <div className="bg-gradient-to-br from-leaf-700 via-leaf-600 to-emerald-500 text-white px-5 pt-10 pb-8 rounded-b-[2rem] shadow-lg">
         <div className="text-4xl">🍽️</div>
         <h1 className="text-3xl font-extrabold mt-2">RePlate</h1>
         <p className="text-leaf-100 mt-1">Rescue the Surplus — no edible food in a dustbin while someone nearby is hungry.</p>
       </div>
 
-      <div className="px-5 py-5 flex-1 w-full max-w-md mx-auto">
+      <div className="px-5 py-5 flex-1 w-full max-w-md mx-auto anim-fadeUp">
         <div className="grid grid-cols-2 gap-2 mb-4">
           <button onClick={() => demoLogin('donor') || onDone()} className="bg-leaf-600 text-white font-semibold rounded-xl py-3 active:scale-[.98]">▶ Demo as Donor</button>
           <button onClick={() => demoLogin('receiver') || onDone()} className="bg-white text-leaf-700 font-semibold rounded-xl py-3 ring-1 ring-leaf-300 active:scale-[.98]">▶ Demo as Receiver</button>

@@ -6,7 +6,7 @@ const STATUS_STYLE = {
   picked_up: 'bg-blue-100 text-blue-800', expired: 'bg-gray-200 text-gray-500', cancelled: 'bg-gray-200 text-gray-500',
 }
 
-export function MyListings({ user, listings, toast }) {
+export function MyListings({ user, listings, toast, celebrate }) {
   const now = useNow(1000)
   const mine = listings.filter((l) => l.donorId === user.id)
   return (
@@ -27,7 +27,7 @@ export function MyListings({ user, listings, toast }) {
               {l.status === 'claimed' && (
                 <>
                   <p className="text-sm mt-1">Claimed by <b>{l.claimedByName}</b></p>
-                  <button onClick={() => { markPickedUp(l.id); toast('Marked as picked up. Thank you for not wasting food!', '💚') }} className="mt-2 bg-leaf-600 text-white text-sm font-bold rounded-lg px-3 py-2">Mark picked up</button>
+                  <button onClick={() => { markPickedUp(l.id); celebrate && celebrate(); toast('Marked as picked up. Thank you for not wasting food!', '💚') }} className="mt-2 bg-leaf-600 text-white text-sm font-bold rounded-lg px-3 py-2">Mark picked up</button>
                 </>
               )}
               {l.status === 'available' && (
@@ -41,7 +41,7 @@ export function MyListings({ user, listings, toast }) {
   )
 }
 
-export function MyClaims({ user, listings, toast }) {
+export function MyClaims({ user, listings, toast, celebrate }) {
   const now = useNow(1000)
   const mine = listings.filter((l) => l.claimedBy === user.id && ['claimed', 'picked_up'].includes(l.status))
   return (
@@ -69,7 +69,7 @@ export function MyClaims({ user, listings, toast }) {
                 <div className="flex gap-2 pt-1">
                   <a href={`tel:${l.donorPhone.replace(/\s/g, '')}`} className="flex-1 text-center bg-leaf-600 text-white font-bold rounded-lg py-2.5">Call donor</a>
                   <a href={`https://www.google.com/maps/dir/?api=1&destination=${l.lat},${l.lng}`} target="_blank" rel="noreferrer" className="flex-1 text-center bg-white ring-1 ring-gray-300 font-semibold rounded-lg py-2.5">Directions</a>
-                  <button onClick={() => { markPickedUp(l.id); toast('Pickup confirmed — meals rescued!', '🎉') }} className="flex-1 bg-blue-600 text-white font-bold rounded-lg py-2.5">Picked up ✓</button>
+                  <button onClick={() => { markPickedUp(l.id); celebrate && celebrate(); toast('Pickup confirmed — meals rescued!', '🎉') }} className="flex-1 bg-blue-600 text-white font-bold rounded-lg py-2.5">Picked up ✓</button>
                 </div>
               </div>
             )}

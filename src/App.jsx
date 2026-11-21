@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CITY_CENTER, currentUser, getDb, logout, markNotificationsRead, subscribe, tick } from './data/store'
-import { Toasts } from './components/ui'
+import { Confetti, Toasts } from './components/ui'
 import Auth from './pages/Auth'
 import Feed from './pages/Feed'
 import PostFood from './pages/PostFood'
@@ -12,6 +12,8 @@ export default function App() {
   const [tab, setTab] = useState('home')
   const [toasts, setToasts] = useState([])
   const [showBell, setShowBell] = useState(false)
+  const [confetti, setConfetti] = useState(false)
+  const celebrate = () => { setConfetti(true); setTimeout(() => setConfetti(false), 1800) }
   const [location, setLocation] = useState({ ...CITY_CENTER, fallback: true })
   const seenNotifs = useRef(new Set())
   const db = getDb()
@@ -59,7 +61,8 @@ export default function App() {
   return (
     <div className="min-h-screen bg-cream">
       <Toasts toasts={toasts} />
-      <header className="sticky top-0 z-40 bg-leaf-600 text-white px-4 py-3 flex items-center gap-2 shadow">
+      <Confetti show={confetti} />
+      <header className="sticky top-0 z-40 bg-gradient-to-r from-leaf-700 via-leaf-600 to-emerald-600 text-white px-4 py-3 flex items-center gap-2 shadow-md">
         <span className="text-2xl">🍽️</span>
         <div className="flex-1">
           <div className="font-extrabold leading-none">RePlate</div>
@@ -83,11 +86,11 @@ export default function App() {
         </div>
       )}
 
-      <main className="max-w-md mx-auto px-4 py-4 pb-24">
-        {activeTab === 'home' && <Feed user={user} listings={db.listings} location={location} toast={toast} />}
+      <main key={activeTab} className="max-w-md mx-auto px-4 py-4 pb-24 anim-fadeUp">
+        {activeTab === 'home' && <Feed user={user} listings={db.listings} location={location} toast={toast} goClaims={() => setTab('claims')} celebrate={celebrate} />}
         {activeTab === 'post' && <PostFood user={user} location={location} toast={toast} goMyListings={() => setTab('mine')} />}
-        {activeTab === 'mine' && <MyListings user={user} listings={db.listings} toast={toast} />}
-        {activeTab === 'claims' && <MyClaims user={user} listings={db.listings} toast={toast} />}
+        {activeTab === 'mine' && <MyListings user={user} listings={db.listings} toast={toast} celebrate={celebrate} />}
+        {activeTab === 'claims' && <MyClaims user={user} listings={db.listings} toast={toast} celebrate={celebrate} />}
         {activeTab === 'impact' && <Dashboard db={db} />}
       </main>
 

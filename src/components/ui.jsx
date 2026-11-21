@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export function useNow(intervalMs = 1000) {
   const [now, setNow] = useState(Date.now())
@@ -14,18 +14,18 @@ export function fmtCountdown(ms) {
 }
 
 export function urgency(ms) {
-  if (ms <= 0) return { key: 'expired', label: 'Expired', bar: 'bg-gray-300', text: 'text-gray-500', ring: 'ring-gray-200' }
-  if (ms < 30 * 60 * 1000) return { key: 'red', label: 'Expiring soon', bar: 'bg-red-500', text: 'text-red-600', ring: 'ring-red-200' }
-  if (ms < 2 * 3600 * 1000) return { key: 'amber', label: 'Ending soon', bar: 'bg-amber-500', text: 'text-amber-600', ring: 'ring-amber-200' }
-  return { key: 'green', label: 'Fresh', bar: 'bg-leaf-500', text: 'text-leaf-600', ring: 'ring-leaf-200' }
+  if (ms <= 0) return { key: 'expired', label: 'Expired', bar: 'bg-gray-300', text: 'text-gray-500', ring: 'ring-gray-200', grad: 'from-gray-400 to-gray-500' }
+  if (ms < 30 * 60 * 1000) return { key: 'red', label: 'Expiring soon', bar: 'bg-red-500', text: 'text-red-600', ring: 'ring-red-200', grad: 'from-red-500 to-orange-500' }
+  if (ms < 2 * 3600 * 1000) return { key: 'amber', label: 'Ending soon', bar: 'bg-amber-500', text: 'text-amber-600', ring: 'ring-amber-200', grad: 'from-amber-500 to-yellow-500' }
+  return { key: 'green', label: 'Fresh', bar: 'bg-leaf-500', text: 'text-leaf-600', ring: 'ring-leaf-200', grad: 'from-leaf-500 to-emerald-500' }
 }
 
 export function Toasts({ toasts }) {
   return (
-    <div className="fixed top-3 left-1/2 -translate-x-1/2 z-[100] w-[92%] max-w-sm space-y-2 pointer-events-none">
+    <div className="fixed top-3 left-1/2 -translate-x-1/2 z-[120] w-[92%] max-w-sm space-y-2 pointer-events-none">
       {toasts.map((t) => (
-        <div key={t.id} className="bg-gray-900 text-white text-sm rounded-xl px-4 py-3 shadow-lg flex gap-2 items-start animate-[slideDown_.25s_ease]">
-          <span>{t.icon || '🔔'}</span><span>{t.text}</span>
+        <div key={t.id} className="bg-gray-900/95 backdrop-blur text-white text-sm rounded-2xl px-4 py-3 shadow-xl flex gap-2 items-start anim-pop">
+          <span className="text-base">{t.icon || '🔔'}</span><span>{t.text}</span>
         </div>
       ))}
     </div>
@@ -40,26 +40,73 @@ export function VegBadge({ veg }) {
   )
 }
 
-export function ListingCard({ l, distanceKm, now, children }) {
+export function ListingCard({ l, distanceKm, now, children, index = 0 }) {
   const left = l.expiresAt - now
   const u = urgency(left)
+  const total = Math.max(1, l.expiresAt - l.createdAt)
+  const pct = Math.max(0, Math.min(100, (left / total) * 100))
   return (
-    <article className={`bg-white rounded-2xl shadow-sm ring-1 ${u.ring} overflow-hidden`}>
+    <article className={`bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow ring-1 ${u.ring} overflow-hidden anim-fadeUp`} style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}>
       <div className="relative">
-        <img src={l.photo} alt={l.foodName} className="w-full h-40 object-cover" loading="lazy" />
-        <span className={`absolute top-2 left-2 text-xs font-bold px-2.5 py-1 rounded-full text-white ${u.bar}`}>⏱ {fmtCountdown(left)}</span>
-        <span className="absolute top-2 right-2"><VegBadge veg={l.veg} /></span>
+        <img src={l.photo} alt={l.foodName} className="w-full h-44 object-cover" loading="lazy" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/45 to-transparent" />
+        <span className={`absolute top-2.5 left-2.5 text-xs font-bold px-2.5 py-1 rounded-full text-white bg-gradient-to-r ${u.grad} shadow`}>⏱ {fmtCountdown(left)}</span>
+        <span className="absolute top-2.5 right-2.5"><VegBadge veg={l.veg} /></span>
+        <span className="absolute bottom-2.5 left-3 text-white text-sm font-semibold drop-shadow">🍽 Serves {l.servings}</span>
+        {distanceKm != null && <span className="absolute bottom-2.5 right-3 text-white text-xs font-medium drop-shadow">📍 {distanceKm.toFixed(1)} km</span>}
       </div>
       <div className="p-3.5">
         <h3 className="font-bold text-[17px] leading-snug">{l.foodName}</h3>
-        <p className="text-sm text-gray-500 mt-0.5">by {l.donorName}{distanceKm != null ? ` · ${distanceKm.toFixed(1)} km away` : ''}</p>
-        <div className="flex items-center gap-3 mt-2 text-sm">
-          <span className="font-semibold text-leaf-700">🍽 Serves {l.servings}</span>
-          <span className={`font-medium ${u.text}`}>{u.label}</span>
+        <p className="text-sm text-gray-500 mt-0.5">by {l.donorName}</p>
+        <div className="mt-2.5 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+          <div className={`h-full rounded-full bg-gradient-to-r ${u.grad} transition-[width] duration-1000 ease-linear`} style={{ width: `${pct}%` }} />
         </div>
+        <p className={`text-xs font-semibold mt-1.5 ${u.text}`}>{u.label} · {fmtCountdown(left)} left to pick up</p>
         {children}
       </div>
     </article>
+  )
+}
+
+export function SkeletonCard() {
+  return (
+    <div className="bg-white rounded-3xl ring-1 ring-gray-100 overflow-hidden">
+      <div className="skeleton h-44 w-full" />
+      <div className="p-3.5 space-y-2">
+        <div className="skeleton h-4 rounded-full w-3/4" />
+        <div className="skeleton h-3 rounded-full w-1/2" />
+        <div className="skeleton h-10 rounded-xl w-full mt-3" />
+      </div>
+    </div>
+  )
+}
+
+export function Confetti({ show }) {
+  const pieces = useMemo(() => Array.from({ length: 28 }, (_, i) => ({
+    left: Math.random() * 100, delay: Math.random() * 0.35, dur: 1.1 + Math.random() * 0.7,
+    color: ['#22c55e', '#f59e0b', '#ef4444', '#3b82f6', '#a855f7'][i % 5],
+    size: 6 + Math.random() * 7, round: Math.random() > 0.5,
+  })), [])
+  if (!show) return null
+  return (
+    <div className="fixed inset-0 z-[130] pointer-events-none overflow-hidden">
+      {pieces.map((p, i) => (
+        <span key={i} style={{
+          position: 'absolute', top: '-4vh', left: `${p.left}%`, width: p.size, height: p.size * (p.round ? 1 : 0.45),
+          background: p.color, borderRadius: p.round ? '50%' : '2px',
+          animation: `confettiFall ${p.dur}s ease-in ${p.delay}s both`,
+        }} />
+      ))}
+    </div>
+  )
+}
+
+export function Modal({ children, onClose }) {
+  return (
+    <div className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" onClick={onClose} />
+      <div className="relative bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[88vh] overflow-auto anim-pop">{children}</div>
+    </div>
   )
 }
 
