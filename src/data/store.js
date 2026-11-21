@@ -216,3 +216,16 @@ export function haversineKm(a, b) {
   return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s))
 }
 export function resetDemo() { localStorage.removeItem(LS_KEY); db = seed(); save(db); emit() }
+
+// --- theme ------------------------------------------------------------------
+export function getTheme() {
+  try {
+    const saved = localStorage.getItem('replate_theme')
+    if (saved) return saved
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  } catch { return 'light' }
+}
+export function applyTheme(t) {
+  document.documentElement.classList.toggle('dark', t === 'dark')
+  try { localStorage.setItem('replate_theme', t) } catch { /* ignore */ }
+}

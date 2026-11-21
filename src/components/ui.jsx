@@ -14,10 +14,10 @@ export function fmtCountdown(ms) {
 }
 
 export function urgency(ms) {
-  if (ms <= 0) return { key: 'expired', label: 'Expired', bar: 'bg-gray-300', text: 'text-gray-500', ring: 'ring-gray-200', grad: 'from-gray-400 to-gray-500' }
-  if (ms < 30 * 60 * 1000) return { key: 'red', label: 'Expiring soon', bar: 'bg-red-500', text: 'text-red-600', ring: 'ring-red-200', grad: 'from-red-500 to-orange-500' }
-  if (ms < 2 * 3600 * 1000) return { key: 'amber', label: 'Ending soon', bar: 'bg-amber-500', text: 'text-amber-600', ring: 'ring-amber-200', grad: 'from-amber-500 to-yellow-500' }
-  return { key: 'green', label: 'Fresh', bar: 'bg-leaf-500', text: 'text-leaf-600', ring: 'ring-leaf-200', grad: 'from-leaf-500 to-emerald-500' }
+  if (ms <= 0) return { key: 'expired', label: 'Expired', bar: 'bg-gray-300', text: 'text-gray-500 dark:text-slate-400', ring: 'ring-gray-200 dark:ring-slate-700', grad: 'from-gray-400 to-gray-500' }
+  if (ms < 30 * 60 * 1000) return { key: 'red', label: 'Expiring soon', bar: 'bg-red-50 dark:bg-red-950/500', text: 'text-red-600 dark:text-red-400', ring: 'ring-red-200 dark:ring-red-900', grad: 'from-red-500 to-orange-500' }
+  if (ms < 2 * 3600 * 1000) return { key: 'amber', label: 'Ending soon', bar: 'bg-amber-500', text: 'text-amber-600', ring: 'ring-amber-200 dark:ring-amber-900', grad: 'from-amber-500 to-yellow-500' }
+  return { key: 'green', label: 'Fresh', bar: 'bg-green-500', text: 'text-green-600 dark:text-green-400', ring: 'ring-green-200 dark:ring-green-900', grad: 'from-green-500 to-emerald-500' }
 }
 
 export function Toasts({ toasts }) {
@@ -34,8 +34,8 @@ export function Toasts({ toasts }) {
 
 export function VegBadge({ veg }) {
   return (
-    <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border ${veg ? 'text-leaf-700 border-leaf-300 bg-leaf-50' : 'text-red-700 border-red-300 bg-red-50'}`}>
-      <span className={`w-2 h-2 rounded-full ${veg ? 'bg-leaf-500' : 'bg-red-500'}`} /> {veg ? 'Veg' : 'Non-veg'}
+    <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border ${veg ? 'text-brand-700 dark:text-brand-300 border-brand-300 dark:border-brand-700 bg-brand-50 dark:bg-slate-800' : 'text-red-700 border-red-300 dark:border-red-800 bg-red-50 dark:bg-red-950/50'}`}>
+      <span className={`w-2 h-2 rounded-full ${veg ? 'bg-brand-50 dark:bg-slate-8000' : 'bg-red-50 dark:bg-red-950/500'}`} /> {veg ? 'Veg' : 'Non-veg'}
     </span>
   )
 }
@@ -46,7 +46,7 @@ export function ListingCard({ l, distanceKm, now, children, index = 0 }) {
   const total = Math.max(1, l.expiresAt - l.createdAt)
   const pct = Math.max(0, Math.min(100, (left / total) * 100))
   return (
-    <article className={`bg-white rounded-3xl shadow-sm hover:shadow-md transition-shadow ring-1 ${u.ring} overflow-hidden anim-fadeUp`} style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}>
+    <article className={`bg-white dark:bg-slate-900 rounded-3xl shadow-sm hover:shadow-md transition-shadow ring-1 ${u.ring} overflow-hidden anim-fadeUp`} style={{ animationDelay: `${Math.min(index, 6) * 70}ms` }}>
       <div className="relative">
         <img src={l.photo} alt={l.foodName} className="w-full h-44 object-cover" loading="lazy" />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/45 to-transparent" />
@@ -57,8 +57,8 @@ export function ListingCard({ l, distanceKm, now, children, index = 0 }) {
       </div>
       <div className="p-3.5">
         <h3 className="font-bold text-[17px] leading-snug">{l.foodName}</h3>
-        <p className="text-sm text-gray-500 mt-0.5">by {l.donorName}</p>
-        <div className="mt-2.5 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+        <p className="text-sm text-gray-500 dark:text-slate-400 mt-0.5">by {l.donorName}</p>
+        <div className="mt-2.5 h-1.5 rounded-full bg-gray-100 dark:bg-slate-800 overflow-hidden">
           <div className={`h-full rounded-full bg-gradient-to-r ${u.grad} transition-[width] duration-1000 ease-linear`} style={{ width: `${pct}%` }} />
         </div>
         <p className={`text-xs font-semibold mt-1.5 ${u.text}`}>{u.label} · {fmtCountdown(left)} left to pick up</p>
@@ -70,7 +70,7 @@ export function ListingCard({ l, distanceKm, now, children, index = 0 }) {
 
 export function SkeletonCard() {
   return (
-    <div className="bg-white rounded-3xl ring-1 ring-gray-100 overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 rounded-3xl ring-1 ring-gray-100 dark:ring-slate-800 overflow-hidden">
       <div className="skeleton h-44 w-full" />
       <div className="p-3.5 space-y-2">
         <div className="skeleton h-4 rounded-full w-3/4" />
@@ -105,7 +105,7 @@ export function Modal({ children, onClose }) {
   return (
     <div className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" onClick={onClose} />
-      <div className="relative bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[88vh] overflow-auto anim-pop">{children}</div>
+      <div className="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[88vh] overflow-auto anim-pop">{children}</div>
     </div>
   )
 }

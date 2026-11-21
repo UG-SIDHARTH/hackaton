@@ -35,5 +35,5 @@ export default function MapView({ listings, center, now }) {
     return () => { map.removeLayer(layer) }
   }, [listings, now])
 
-  return <div ref={ref} className="w-full h-[62vh] rounded-2xl overflow-hidden ring-1 ring-gray-200 z-0" />
+  return <div ref={ref} className="w-full h-[62vh] rounded-2xl overflow-hidden ring-1 ring-gray-200 dark:ring-slate-700 z-0" />
 }

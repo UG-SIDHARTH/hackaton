@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { CITY_CENTER, currentUser, getDb, logout, markNotificationsRead, subscribe, tick } from './data/store'
+import { applyTheme, CITY_CENTER, currentUser, getDb, getTheme, logout, markNotificationsRead, subscribe, tick } from './data/store'
 import { Confetti, Toasts } from './components/ui'
 import Auth from './pages/Auth'
 import Feed from './pages/Feed'
@@ -12,6 +12,8 @@ export default function App() {
   const [tab, setTab] = useState('home')
   const [toasts, setToasts] = useState([])
   const [showBell, setShowBell] = useState(false)
+  const [theme, setTheme] = useState(getTheme())
+  const toggleTheme = () => { const t = theme === 'dark' ? 'light' : 'dark'; setTheme(t); applyTheme(t) }
   const [confetti, setConfetti] = useState(false)
   const celebrate = () => { setConfetti(true); setTimeout(() => setConfetti(false), 1800) }
   const [location, setLocation] = useState({ ...CITY_CENTER, fallback: true })
@@ -59,28 +61,29 @@ export default function App() {
   const activeTab = tabs.some((t) => t.id === tab) ? tab : tabs[0].id
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-cream dark:bg-slate-950">
       <Toasts toasts={toasts} />
       <Confetti show={confetti} />
-      <header className="sticky top-0 z-40 bg-gradient-to-r from-leaf-700 via-leaf-600 to-emerald-600 text-white px-4 py-3 flex items-center gap-2 shadow-md">
+      <header className="sticky top-0 z-40 bg-gradient-to-r from-brand-700 via-brand-600 to-fuchsia-600 text-white px-4 py-3 flex items-center gap-2 shadow-md">
         <span className="text-2xl">🍽️</span>
         <div className="flex-1">
           <div className="font-extrabold leading-none">RePlate</div>
-          <div className="text-[11px] text-leaf-100">{user.name} · {isDonor ? 'Donor' : 'Receiver'}{user.org ? ` · ${user.org}` : ''}</div>
+          <div className="text-[11px] text-brand-100">{user.name} · {isDonor ? 'Donor' : 'Receiver'}{user.org ? ` · ${user.org}` : ''}</div>
         </div>
+        <button onClick={toggleTheme} className="text-xl p-1.5" aria-label="Toggle dark mode">{theme === 'dark' ? '☀️' : '🌙'}</button>
         <button onClick={() => { setShowBell(!showBell); if (!showBell) markNotificationsRead() }} className="relative text-xl p-1.5">
           🔔
-          {unread > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold w-4.5 h-4.5 min-w-[18px] min-h-[18px] rounded-full flex items-center justify-center">{unread}</span>}
+          {unread > 0 && <span className="absolute -top-0.5 -right-0.5 bg-red-50 dark:bg-red-950/500 text-white text-[10px] font-bold w-4.5 h-4.5 min-w-[18px] min-h-[18px] rounded-full flex items-center justify-center">{unread}</span>}
         </button>
-        <button onClick={() => { logout(); setTab('home') }} className="text-xs font-semibold bg-leaf-700 rounded-lg px-2.5 py-1.5">Log out</button>
+        <button onClick={() => { logout(); setTab('home') }} className="text-xs font-semibold bg-brand-700 rounded-lg px-2.5 py-1.5">Log out</button>
       </header>
 
       {showBell && (
         <div className="max-w-md mx-auto px-4 mt-3">
-          <div className="bg-white rounded-2xl ring-1 ring-gray-200 p-3 space-y-2 max-h-64 overflow-auto">
-            {notifications.length === 0 && <p className="text-sm text-gray-400 text-center py-3">No notifications yet.</p>}
+          <div className="bg-white dark:bg-slate-900 rounded-2xl ring-1 ring-gray-200 dark:ring-slate-700 p-3 space-y-2 max-h-64 overflow-auto">
+            {notifications.length === 0 && <p className="text-sm text-gray-400 dark:text-slate-500 text-center py-3">No notifications yet.</p>}
             {notifications.slice(0, 12).map((n) => (
-              <div key={n.id} className="text-sm flex gap-2 border-b border-gray-50 pb-2 last:border-0"><span>🔔</span><span>{n.text}</span></div>
+              <div key={n.id} className="text-sm flex gap-2 border-b border-gray-50 dark:border-slate-800 pb-2 last:border-0"><span>🔔</span><span>{n.text}</span></div>
             ))}
           </div>
         </div>
@@ -94,10 +97,10 @@ export default function App() {
         {activeTab === 'impact' && <Dashboard db={db} />}
       </main>
 
-      <nav className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-gray-200" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+      <nav className="fixed bottom-0 inset-x-0 z-40 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div className="max-w-md mx-auto grid" style={{ gridTemplateColumns: `repeat(${tabs.length}, 1fr)` }}>
           {tabs.map((t) => (
-            <button key={t.id} onClick={() => setTab(t.id)} className={`py-2.5 flex flex-col items-center gap-0.5 text-[11px] font-semibold ${activeTab === t.id ? 'text-leaf-700' : 'text-gray-400'}`}>
+            <button key={t.id} onClick={() => setTab(t.id)} className={`py-2.5 flex flex-col items-center gap-0.5 text-[11px] font-semibold ${activeTab === t.id ? 'text-brand-700 dark:text-brand-300' : 'text-gray-400 dark:text-slate-500'}`}>
               <span className="text-xl leading-none">{t.icon}</span>{t.label}
             </button>
           ))}
