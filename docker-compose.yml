@@ -1,0 +1,8 @@
+services:
+  replate:
+    build: .
+    image: replate:latest
+    container_name: replate
+    ports:
+      - "3000:80"
+    restart: unless-stopped
