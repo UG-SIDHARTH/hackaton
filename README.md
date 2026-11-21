@@ -4,7 +4,7 @@
 
 **🔴 Live demo: https://replate-pi.vercel.app** · Repo: https://github.com/UG-SIDHARTH/hackaton
 
-**🎬 Demo video (55 sec):** [▶ Watch the walkthrough](https://github.com/UG-SIDHARTH/hackaton/blob/main/replate_demo_video.mp4) — receiver feed → map → claim → pickup → impact → donor posting, recorded from the live site.
+**🎬 Demo video (65 sec):** [▶ Watch the walkthrough](https://github.com/UG-SIDHARTH/hackaton/blob/main/replate_demo_video.mp4) — receiver feed → map → claim → pickup → impact → donor posting, plus a dark-mode segment and a desktop segment showing the responsive 3-column layout, recorded from the live site.
 
 Run it locally with Docker: `docker compose up --build` → http://localhost:3000
 
@@ -31,6 +31,7 @@ Demo accounts (password `demo` for both): `donor@replate.demo`, `receiver@replat
 - **Claim loop** — one-tap claim reveals donor contact + address, Call donor (tel:) and Directions (Google Maps) links, cancel claim, and Mark Picked Up on both sides.
 - **Notifications** — in-app toasts + notification bell; browser Notification API used where permitted. "Simulate new donation" button shows the receiver notification path live.
 - **Impact dashboard** — animated counters (meals rescued, kg saved, CO₂ avoided, active donors), weekly rescues chart, top-donor leaderboard.
+- **Look & feel** — violet → fuchsia theme with a dark-mode toggle (remembers your choice, follows the system setting by default). Fully responsive: 1 column on mobile, 2 on tablet, 3 on desktop.
 
 ## 🏗️ Architecture
 
